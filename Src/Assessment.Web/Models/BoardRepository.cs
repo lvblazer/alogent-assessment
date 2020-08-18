@@ -11,6 +11,7 @@ namespace Assessment.Web.Models
     {
         IQueryable<Board> GetAll();
         Board Find(int id);
+        PostIt FindPostIt(Board board, int postId);
         bool Add(Board board);
         bool Delete(Board board);
     }
@@ -22,6 +23,7 @@ namespace Assessment.Web.Models
         public BoardRepository()
         {
             boards = GetBoardsFromFile();
+
         }
 
         private List<Board> GetBoardsFromFile()
@@ -51,6 +53,15 @@ namespace Assessment.Web.Models
             boards.Add(board);
 
             return true;
+        }
+
+        public PostIt FindPostIt(Board board, int postItId) {
+            
+
+            if (board != null && board.PostIts != null) {
+                return (board.PostIts.FirstOrDefault<PostIt>(p => p.Id == postItId));
+            }
+            return null;
         }
 
         public bool Delete(Board board)

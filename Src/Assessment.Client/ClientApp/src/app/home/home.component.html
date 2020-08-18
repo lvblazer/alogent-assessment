@@ -1,17 +1,29 @@
 
-<div class="col-sm-4" *ngFor="let board of boards">
+<div class="col-sm-4" *ngFor="let board of boards; index as boardIndex">
   <div class="card">
     <h3 class="card-header">
       {{ board.name }}
     </h3>
     <div class="card-body">
       <b>Posts</b>
-      <ul>
-
+      <ul *ngFor="let post of board.postIts">
+          <div>
+              {{post.text}}
+          </div>
+          <div>
+              <small>Created {{post.createdAt | date:short }}</small>
+          </div>
       </ul>
     </div>
     <div class="card-footer text-muted">
       <small>Created {{ board.createdAt | date:short }}</small>
-    </div>
+    </div>    
+    <div>
+        <form #f="ngForm" (ngSubmit)="onSubmit(f, boardIndex)">
+            <input type="text" name="posttext" required ngModel minlength="1"/>
+            <button>Add Post It</button>
+        </form>
+        <div class="text-danger" *ngIf="!valid && selectedBoardIndex === boardIndex">Add some text before you post</div>
+    </div>    
   </div>
 </div>
